@@ -6,7 +6,6 @@ public class SuccessState<T> extends UiState<T> {
     protected T state;
 
     public SuccessState(T state) {
-        super(UiStateType.SUCCESS);
         this.state = state;
     }
 

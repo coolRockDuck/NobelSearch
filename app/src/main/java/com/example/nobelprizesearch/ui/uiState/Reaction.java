@@ -1,5 +1,5 @@
 package com.example.nobelprizesearch.ui.uiState;
 
-public interface React {
+public interface Reaction {
     void react();
 }

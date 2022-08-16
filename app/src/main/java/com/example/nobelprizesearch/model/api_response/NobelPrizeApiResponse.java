@@ -16,7 +16,7 @@ public class NobelPrizeApiResponse {
     private final List<LaureateApiResponse> laureateList;
 
     public NobelPrizeApiResponse(MotivationApiResponse.CategoryApiResponse category, String dateAwarded, List<LaureateApiResponse> laureateList) {
-        this.dateAwarded = dateAwarded; // todo check for exceptions
+        this.dateAwarded = dateAwarded;
         this.category = category;
         this.laureateList = laureateList;
     }
@@ -42,5 +42,4 @@ public class NobelPrizeApiResponse {
     public String toString() {
         return "Year = " + dateAwarded + ", category = " + category + ", laureates = " + laureateList;
     }
-
 }

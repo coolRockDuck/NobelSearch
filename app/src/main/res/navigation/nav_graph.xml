@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/destination_FirstFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.nobelprizesearch.ui.fragments.FirstFragment"
+        android:id="@+id/destination_FirstFragment"
+        android:name="com.example.nobelprizesearch.ui.fragments.NobelListFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_nobelslist">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            app:destination="@id/destination_SecondFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.nobelprizesearch.ui.fragments.SecondFragment"
+        android:id="@+id/destination_SecondFragment"
+        android:name="com.example.nobelprizesearch.ui.fragments.SearchForNobelFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_nobelsearch">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/destination_FirstFragment" />
     </fragment>
 </navigation>

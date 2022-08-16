@@ -3,37 +3,29 @@ package com.example.nobelprizesearch.ui.uiState;
 import java.util.function.Consumer;
 
 abstract public class UiState<T> {
-    private final UiStateType type;
-
-    public UiState(UiStateType type) {
-        this.type = type;
-    }
 
     public boolean isSuccessful() {
-        return type == UiStateType.SUCCESS;
+        return this instanceof SuccessState;
     }
 
     public boolean isInProgress() {
-        return type == UiStateType.IN_PROGRESS;
+        return this instanceof InProgressState;
     }
 
     public boolean isFailure() {
-        return type == UiStateType.FAILURE;
+        return this instanceof FailureState;
     }
 
-    public UiStateType getType() {
-        return type;
-    }
 
-    public void resolve(Consumer<T> successConsumer, React inProgressReaction, Consumer<Throwable> failureConsumer) {
+    public void resolve(Consumer<T> successConsumer, Reaction inProgressReaction, Consumer<Throwable> failureConsumer) {
         if (isSuccessful()) {
             ((SuccessState<T>) this).consumeSuccess(successConsumer);
         }
         else if (isInProgress()) {
-            ((InProgressState<T>) this).consumeReaction(inProgressReaction);
+            ((InProgressState<T>) this).react(inProgressReaction);
         }
         else if (isFailure()) {
-            ((FailuireState<T>) this).consumeFailure(failureConsumer);
+            ((FailureState<T>) this).consumeFailure(failureConsumer);
         }
     }
 
@@ -43,22 +35,16 @@ abstract public class UiState<T> {
         }
     }
 
-    public void ifInProgressThen(React react) {
+    public void ifInProgressThen(Reaction react) {
         if (isInProgress()) {
-            ((InProgressState<T>) this).consumeReaction(react);
+            ((InProgressState<T>) this).react(react);
         }
     }
 
     public void ifFailureThen(Consumer<Throwable> consumer) {
         if (isFailure()) {
-            ((FailuireState<T>) this).consumeFailure(consumer);
+            ((FailureState<T>) this).consumeFailure(consumer);
         }
-    }
-
-    public enum UiStateType {
-        SUCCESS,
-        IN_PROGRESS,
-        FAILURE;
     }
 }
 

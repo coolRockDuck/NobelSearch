@@ -13,18 +13,21 @@ public class NobelPrize {
     private final List<Laureate> laureateList;
 
     public NobelPrize(String dateAwarded, Motivation.Category category, List<Laureate> laureateList) {
+        if (dateAwarded == null || category == null || laureateList == null) {
+            throw new IllegalArgumentException("Response CAN'T be equal to null");
+        }
+
         this.category = category;
-        this.dateAwarded = dateAwarded; // todo check for exceptions
+        this.dateAwarded = dateAwarded;
         this.laureateList = laureateList;
     }
 
     public NobelPrize(NobelPrizeApiResponse response) {
-        if (response == null || response.getDateAwarded() == null || response.getDateAwarded().isEmpty()) {
-            throw new IllegalArgumentException("Arguments CAN'T be equal to null; response = " + response);
+        if (response == null) {
+            throw new IllegalArgumentException("Response CAN'T be equal to null");
         }
 
-        System.out.println("Date = " + response.getDateAwarded());
-        this.dateAwarded = response.getDateAwarded(); // todo check for exceptions
+        this.dateAwarded = response.getDateAwarded();
         this.category = new Motivation.Category(response.getCategory());
         this.laureateList = new ArrayList<>(response.getLaureateList());
     }

@@ -14,6 +14,10 @@ import retrofit2.http.Query;
 public interface NobelPrizeService {
     @GET("nobelPrize/{field}/{year}")
     Single<List<NobelPrizeApiResponse>> fetchNobelPrizeForYear(@Path("year") String year, @Path("field") Field field);
-    @GET("nobelPrizes")
+
+    @GET("nobelPrizes?sort=desc")
     Single<RangeOfNobelPrizeApiResponse> fetchNobelPrizeForRangeOfYears(@Query("nobelPrizeYear") String yearStart, @Query("yearTo") String yearEnd, @Query("nobelPrizeCategory") Field field);
+
+    @GET("nobelPrizes?sort=desc")
+    Single<RangeOfNobelPrizeApiResponse> fetchNobelPrizeForRangeOfYears(@Query("nobelPrizeYear") String yearStart, @Query("yearTo") String yearEnd);
 }

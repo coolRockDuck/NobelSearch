@@ -30,7 +30,7 @@ public class Laureate {
         return id;
     }
 
-    public LaureateName getName() {
+    public LaureateName getLaureateName() {
         return name;
     }
 
