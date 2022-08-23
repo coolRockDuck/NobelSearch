@@ -10,7 +10,7 @@ public enum Field {
         public String getFullName() {
             return "Chemistry";
         }
-    },  // Chemistry
+    },
     ECO {
         @Override
         public String getFullName() {

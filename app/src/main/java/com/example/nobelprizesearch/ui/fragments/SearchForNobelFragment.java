@@ -10,30 +10,30 @@ import android.widget.AutoCompleteTextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.nobelprizesearch.di.MainApplication;
 import com.example.nobelprizesearch.R;
 import com.example.nobelprizesearch.databinding.FragmentNobelsearchBinding;
-import com.example.nobelprizesearch.di.Provider;
+import com.example.nobelprizesearch.di.ApplicationComponent;
 import com.example.nobelprizesearch.model.domain.Field;
+import com.example.nobelprizesearch.model.domain.NobelPrizesSerializableWrapper;
 import com.example.nobelprizesearch.ui.viewModels.NobelPrizesViewModel;
-import com.example.nobelprizesearch.ui.viewModels.factories.NobelPrizesViewModelFactory;
+
+import javax.inject.Inject;
 
 public class SearchForNobelFragment extends Fragment {
 
+    @Inject
+    NobelPrizesViewModel viewModel;
+
     private FragmentNobelsearchBinding binding;
-    private NobelPrizesViewModel viewModel;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
-        if (!(context.getApplicationContext() instanceof Provider)) {
-            throw new IllegalStateException("Activity must implement Provider interface");
-        }
-
-        NobelPrizesViewModelFactory factory = new NobelPrizesViewModelFactory(((Provider) context.getApplicationContext()).provideGetNobelUseCase());
-        viewModel = new ViewModelProvider(requireActivity(), factory).get(NobelPrizesViewModel.class);
+        ApplicationComponent applicationComponent = ((MainApplication) requireActivity().getApplication()).applicationComponent;
+        applicationComponent.inject(this);
     }
 
     @Override
@@ -41,7 +41,6 @@ public class SearchForNobelFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
         binding = FragmentNobelsearchBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -54,14 +53,28 @@ public class SearchForNobelFragment extends Fragment {
     }
 
     private void createListeners() {
+        binding.rbtnGroup.setOnCheckedChangeListener((v, checkedBtnID) -> {
+            if (checkedBtnID == binding.rbtnSearchRange.getId()) {
+                binding.edtYear.setHint(R.string.from);
+                binding.edtYearEnd.setHint(R.string.until);
+                binding.edtYearEnd.setEnabled(true);
+            } else if (checkedBtnID == binding.rbtnSearchSpecific.getId()) {
+                binding.edtYear.setHint(R.string.year);
+                binding.edtYearEnd.setEnabled(false);
+                binding.edtYearEnd.setHint("");
+            }
+        });
+
         binding.btnSearch.setOnClickListener(v -> {
+            boolean isSearchingRange = binding.rbtnSearchRange.isChecked();
+
             String nameOfChosenField = binding.dpmFieldPicker.getEditText().getText().toString();
             Field chosenFiled = Field.getFieldFromName(nameOfChosenField);
-            String yearStart = binding.edtYearStart.getText().toString();
-            String endYear = binding.edtYearEnd.getText().toString();
+            String yearStart = binding.edtYear.getText().toString();
 
-            if (!endYear.isEmpty()) {
-                viewModel.fetchNobelPrizesForRangeOfYears(yearStart, endYear);
+            if (isSearchingRange) {
+                String endYear = binding.edtYearEnd.getText().toString();
+                viewModel.fetchNobelPrizesForRangeOfYears(yearStart, endYear); // todo add support for field
             } else {
                 viewModel.fetchNobelPrizesForYear(yearStart, chosenFiled);
             }
@@ -72,16 +85,16 @@ public class SearchForNobelFragment extends Fragment {
         viewModel.getListOfPrizes().observe(getViewLifecycleOwner(), (state) -> {
             state.resolve((success) -> {
                 System.out.println("Recived success state " + success);
+                Bundle args = new Bundle();
+                args.putSerializable(SpecificNobelPrizesFragment.SPECIFIC_NOBEL_PRIZES_KEY, new NobelPrizesSerializableWrapper(success));
+                NavHostFragment.findNavController(this).navigate(R.id.specificNobelPrizesFragment, args);
             }, () -> {
                 System.out.println("-------LOADING-----");
             }, (error) -> {
                 System.out.println("Error: " + error);
             });
         });
-
-
     }
-
 
     private void creteFieldPicker() {
         String[] arrayOfFields = getResources().getStringArray(R.array.nobel_prize_fields);
@@ -94,7 +107,6 @@ public class SearchForNobelFragment extends Fragment {
         AutoCompleteTextView picker = ((AutoCompleteTextView) binding.dpmFieldPicker.getEditText());
         picker.setAdapter(a);
         picker.setText(arrayOfFields[0], false);
-
     }
 
     @Override

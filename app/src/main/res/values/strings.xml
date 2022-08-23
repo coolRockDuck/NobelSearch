@@ -22,4 +22,9 @@
     <string name="list_nobelprizes_destination">All nobel prizes</string>
     <string name="search_nobelprizes_destination">Search</string>
     <string name="search">Search</string>
+    <string name="year">Year</string>
+    <string name="search_range_of_years">Range of years search</string>
+    <string name="search_single_year">Specific year search</string>
+    <string name="from">From</string>
+    <string name="until">Until</string>
 </resources>

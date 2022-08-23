@@ -4,10 +4,11 @@ import androidx.annotation.NonNull;
 
 import com.example.nobelprizesearch.model.api_response.NobelPrizeApiResponse;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NobelPrize {
+public class NobelPrize implements Serializable {
     private final String dateAwarded;
     private final Motivation.Category category;
     private final List<Laureate> laureateList;
@@ -32,7 +33,6 @@ public class NobelPrize {
         this.laureateList = new ArrayList<>(response.getLaureateList());
     }
 
-
     public Motivation.Category getCategory() {
         return category;
     }
@@ -50,5 +50,4 @@ public class NobelPrize {
     public String toString() {
         return "{Year = " + dateAwarded + ", category = " + category + ", laureates = " + laureateList + "}";
     }
-
 }

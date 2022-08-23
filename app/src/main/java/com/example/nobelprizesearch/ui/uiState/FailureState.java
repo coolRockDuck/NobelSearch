@@ -2,7 +2,7 @@ package com.example.nobelprizesearch.ui.uiState;
 
 import java.util.function.Consumer;
 
-public class FailureState<T> extends UiState<T> {
+public final class FailureState<T> extends UiState<T> {
     private final Throwable error;
     public FailureState(Throwable error) {
         this.error = error;

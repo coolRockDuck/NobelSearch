@@ -6,11 +6,16 @@ import com.example.nobelprizesearch.model.domain.NobelPrize;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.reactivex.Single;
 
+@Singleton
 public class NobelPrizesRepository {
     private final NobelPrizeClient client;
 
+    @Inject
     public NobelPrizesRepository(NobelPrizeClient client) {
         this.client = client;
     }

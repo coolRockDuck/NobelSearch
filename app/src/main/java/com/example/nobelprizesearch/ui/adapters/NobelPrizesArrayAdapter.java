@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class NobelPrizesArrayAdapter extends RecyclerView.Adapter<NobelPrizesArrayAdapter.NobelPrizesViewHolder> {
 
-    private List<NobelPrize> listOfPrizes;
+    protected final List<NobelPrize> listOfPrizes;
 
     public NobelPrizesArrayAdapter(List<NobelPrize> listOfPrizes) {
         this.listOfPrizes = listOfPrizes;
@@ -30,12 +30,6 @@ public class NobelPrizesArrayAdapter extends RecyclerView.Adapter<NobelPrizesArr
     @Override
     public int getItemCount() {
         return listOfPrizes.size();
-    }
-
-    public void addNobelPrizes(List<NobelPrize> newNobelPrizes) {
-        int indexBeforeChange = listOfPrizes.size();
-        listOfPrizes.addAll(newNobelPrizes);
-        notifyItemChanged(indexBeforeChange, listOfPrizes.size());
     }
 
     @Override

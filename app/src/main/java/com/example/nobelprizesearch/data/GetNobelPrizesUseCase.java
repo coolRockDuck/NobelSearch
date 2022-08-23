@@ -9,14 +9,18 @@ import com.example.nobelprizesearch.model.domain.NobelPrize;
 import java.time.Year;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.reactivex.Single;
 
+@Singleton
 public class GetNobelPrizesUseCase {
     private final NobelPrizesRepository repository;
     static final Integer MIN_YEAR = 1901;
     static final Integer MAX_YEAR = Calendar.getInstance().get(Calendar.YEAR);
 
-
+    @Inject
     public GetNobelPrizesUseCase(NobelPrizesRepository repository) {
         this.repository = repository;
     }

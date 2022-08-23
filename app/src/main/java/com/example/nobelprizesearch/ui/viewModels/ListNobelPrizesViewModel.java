@@ -16,20 +16,25 @@ import com.example.nobelprizesearch.ui.uiState.UiState;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+@Singleton
 public class ListNobelPrizesViewModel extends ViewModel {
 
+    private final static int NEXT_YEAR_END_JUMP = 5;
     private final GetNobelPrizesUseCase getNobelPrizesUseCase;
     private final MutableLiveData<UiState<List<NobelPrize>>> listOfPrizes = new MutableLiveData<>();
 
     private int endYear = Calendar.getInstance().get(Calendar.YEAR);
     private final CompositeDisposable disposable = new CompositeDisposable();
 
-
+    @Inject
     public ListNobelPrizesViewModel(GetNobelPrizesUseCase getNobelPrizesUseCase) {
         this.getNobelPrizesUseCase = getNobelPrizesUseCase;
     }
@@ -39,7 +44,6 @@ public class ListNobelPrizesViewModel extends ViewModel {
     }
 
     public void fetchNextNobelPrizes() {
-        System.out.println("Before: endYear = " + endYear);
         int nextEndYear = generateNextEndYear();
 
         Disposable call = getNobelPrizesUseCase.getNobelPrizesForRangeOfYears(String.valueOf(endYear), String.valueOf(nextEndYear - 1))
@@ -55,12 +59,16 @@ public class ListNobelPrizesViewModel extends ViewModel {
                 );
 
         endYear = nextEndYear;
-        System.out.println("After: endYear = " + endYear);
-
         disposable.add(call);
     }
 
     private int generateNextEndYear() {
-        return endYear - 5;
+        return endYear - NEXT_YEAR_END_JUMP;
+    }
+
+    @Override
+    protected void onCleared() {
+        disposable.clear();
+        super.onCleared();
     }
 }

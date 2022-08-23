@@ -8,30 +8,29 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nobelprizesearch.di.MainApplication;
 import com.example.nobelprizesearch.databinding.FragmentNobelslistBinding;
-import com.example.nobelprizesearch.di.Provider;
-import com.example.nobelprizesearch.ui.adapters.NobelPrizesArrayAdapter;
-import com.example.nobelprizesearch.ui.viewModels.factories.ListNobelPrizesFactory;
+import com.example.nobelprizesearch.di.ApplicationComponent;
+import com.example.nobelprizesearch.ui.adapters.AllNobelPrizesArrayAdapter;
 import com.example.nobelprizesearch.ui.viewModels.ListNobelPrizesViewModel;
+
+import javax.inject.Inject;
 
 public class NobelListFragment extends Fragment {
 
+
+    @Inject
+    ListNobelPrizesViewModel viewModel;
+
     private FragmentNobelslistBinding binding;
-    private ListNobelPrizesViewModel viewModel;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
-        if (!(context.getApplicationContext() instanceof Provider)) {
-            throw new IllegalStateException("Activity must implement Provider interface");
-        }
-
-        ListNobelPrizesFactory factory = new ListNobelPrizesFactory(((Provider) context.getApplicationContext()).provideGetNobelUseCase());
-        viewModel = new ViewModelProvider(requireActivity(), factory).get(ListNobelPrizesViewModel.class);
+        ApplicationComponent applicationComponent = ((MainApplication) requireActivity().getApplication()).applicationComponent;
+        applicationComponent.inject(this);
     }
 
     @Override
@@ -51,9 +50,9 @@ public class NobelListFragment extends Fragment {
             list.resolve((success) -> {
                 System.out.println("Succes has size = " + success.size());
                 if (rvNobelPrizes.getAdapter() == null) {
-                    rvNobelPrizes.setAdapter(new NobelPrizesArrayAdapter(success));
+                    rvNobelPrizes.setAdapter(new AllNobelPrizesArrayAdapter(success));
                 } else {
-                    ((NobelPrizesArrayAdapter) rvNobelPrizes.getAdapter()).addNobelPrizes(success);
+                    ((AllNobelPrizesArrayAdapter) rvNobelPrizes.getAdapter()).addNobelPrizes(success);
                 }
             }, () -> {
                 System.out.println("Waiting ");

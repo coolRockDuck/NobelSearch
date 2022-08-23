@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/destination_FirstFragment">
+    app:startDestination="@id/destination_SecondFragment">
 
     <fragment
         android:id="@+id/destination_FirstFragment"
@@ -24,5 +24,13 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/destination_FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/specificNobelPrizesFragment"
+        android:name="com.example.nobelprizesearch.ui.fragments.SpecificNobelPrizesFragment"
+        android:label="SpecificNobelPrizesFragment" >
+        <argument
+            android:name="arrayOfSpecificNobelPrizes"
+            app:argType="com.example.nobelprizesearch.model.domain.NobelPrize[]" />
     </fragment>
 </navigation>
