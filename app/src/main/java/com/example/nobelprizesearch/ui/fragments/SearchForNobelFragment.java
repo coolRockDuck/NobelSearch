@@ -84,13 +84,14 @@ public class SearchForNobelFragment extends Fragment {
     private void subscribe() {
         viewModel.getListOfPrizes().observe(getViewLifecycleOwner(), (state) -> {
             state.resolve((success) -> {
-                System.out.println("Recived success state " + success);
+                binding.progressBar.setVisibility(View.GONE);
                 Bundle args = new Bundle();
                 args.putSerializable(SpecificNobelPrizesFragment.SPECIFIC_NOBEL_PRIZES_KEY, new NobelPrizesSerializableWrapper(success));
                 NavHostFragment.findNavController(this).navigate(R.id.specificNobelPrizesFragment, args);
             }, () -> {
-                System.out.println("-------LOADING-----");
+                binding.progressBar.setVisibility(View.VISIBLE);
             }, (error) -> {
+                binding.progressBar.setVisibility(View.GONE);
                 System.out.println("Error: " + error);
             });
         });
@@ -98,14 +99,14 @@ public class SearchForNobelFragment extends Fragment {
 
     private void creteFieldPicker() {
         String[] arrayOfFields = getResources().getStringArray(R.array.nobel_prize_fields);
-        ArrayAdapter<String> a = new ArrayAdapter<>(
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 requireContext(),
                 R.layout.item_field_layout,
                 arrayOfFields
         );
 
         AutoCompleteTextView picker = ((AutoCompleteTextView) binding.dpmFieldPicker.getEditText());
-        picker.setAdapter(a);
+        picker.setAdapter(arrayAdapter);
         picker.setText(arrayOfFields[0], false);
     }
 

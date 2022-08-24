@@ -20,7 +20,6 @@ import javax.inject.Inject;
 
 public class NobelListFragment extends Fragment {
 
-
     @Inject
     ListNobelPrizesViewModel viewModel;
 
@@ -45,19 +44,22 @@ public class NobelListFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         viewModel.getListOfPrizes().observe(getViewLifecycleOwner(), (list) -> {
-            RecyclerView rvNobelPrizes = binding.rvListOfNobelPrizes;
             list.resolve((success) -> {
-                System.out.println("Succes has size = " + success.size());
+                binding.progressBar.setVisibility(View.GONE);
+
+                RecyclerView rvNobelPrizes = binding.rvListOfNobelPrizes;
                 if (rvNobelPrizes.getAdapter() == null) {
                     rvNobelPrizes.setAdapter(new AllNobelPrizesArrayAdapter(success));
                 } else {
                     ((AllNobelPrizesArrayAdapter) rvNobelPrizes.getAdapter()).addNobelPrizes(success);
                 }
             }, () -> {
-                System.out.println("Waiting ");
-            }, (erorr) -> {
-                System.out.println("ERROR + " + erorr);
+                binding.progressBar.setVisibility(View.VISIBLE);
+            }, (error) -> {
+                binding.progressBar.setVisibility(View.GONE);
+                System.out.println("ERROR = " + error);
             });
         });
 
@@ -68,7 +70,6 @@ public class NobelListFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    System.out.println("Fetching next");
                     viewModel.fetchNextNobelPrizes();
                 }
             }
