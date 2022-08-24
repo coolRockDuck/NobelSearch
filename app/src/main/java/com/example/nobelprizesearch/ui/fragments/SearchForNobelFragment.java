@@ -12,10 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.nobelprizesearch.di.MainApplication;
 import com.example.nobelprizesearch.R;
 import com.example.nobelprizesearch.databinding.FragmentNobelsearchBinding;
 import com.example.nobelprizesearch.di.ApplicationComponent;
+import com.example.nobelprizesearch.di.MainApplication;
 import com.example.nobelprizesearch.model.domain.Field;
 import com.example.nobelprizesearch.model.domain.NobelPrizesSerializableWrapper;
 import com.example.nobelprizesearch.ui.viewModels.NobelPrizesViewModel;
@@ -83,11 +83,17 @@ public class SearchForNobelFragment extends Fragment {
 
     private void subscribe() {
         viewModel.getListOfPrizes().observe(getViewLifecycleOwner(), (state) -> {
+            if (state == null) {
+                return;
+            }
             state.resolve((success) -> {
                 binding.progressBar.setVisibility(View.GONE);
+
                 Bundle args = new Bundle();
                 args.putSerializable(SpecificNobelPrizesFragment.SPECIFIC_NOBEL_PRIZES_KEY, new NobelPrizesSerializableWrapper(success));
                 NavHostFragment.findNavController(this).navigate(R.id.specificNobelPrizesFragment, args);
+
+                viewModel.nobelPrizesHasBeenConsumed();
             }, () -> {
                 binding.progressBar.setVisibility(View.VISIBLE);
             }, (error) -> {

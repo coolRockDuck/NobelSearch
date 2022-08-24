@@ -40,6 +40,13 @@ public class NobelPrizesViewModel extends ViewModel {
         return listOfPrizes;
     }
 
+    /**
+     * Methods which prevents from displaying the same prizes multiple times.
+     */
+    public void nobelPrizesHasBeenConsumed() {
+        listOfPrizes.setValue(null);
+    }
+
     public void fetchNobelPrizesForYear(String year, Field field) {
         Disposable call = getNobelPrizesUseCase.getNobelPrizesForOfYear(year, field)
                 .subscribeOn(Schedulers.io()) // check post value on NOT main thread

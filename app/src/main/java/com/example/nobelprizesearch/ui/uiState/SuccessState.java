@@ -1,5 +1,7 @@
 package com.example.nobelprizesearch.ui.uiState;
 
+import android.util.Log;
+
 import java.util.function.Consumer;
 
 public final class SuccessState<T> extends UiState<T> {
@@ -10,6 +12,10 @@ public final class SuccessState<T> extends UiState<T> {
     }
 
     void consumeSuccess(Consumer<T> consumer) {
-        consumer.accept(state);
+        if (state != null) {
+            consumer.accept(state);
+        } else {
+            Log.w("SuccessState", "consumeSuccess: state is equal to null");
+        }
     }
 }

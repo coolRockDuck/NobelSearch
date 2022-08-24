@@ -26,6 +26,7 @@ public class SpecificNobelPrizesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentSpecificNobelprizesBinding.inflate(inflater, container, false);
         listOfSpecificNobelPrizes = ((NobelPrizesSerializableWrapper) getArguments().get(SPECIFIC_NOBEL_PRIZES_KEY)).prizeList;
+
         return binding.getRoot();
     }
 
