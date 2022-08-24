@@ -2,8 +2,6 @@
     <string name="app_name">NobelPrizeSearch</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
@@ -27,4 +25,5 @@
     <string name="search_single_year">Specific year search</string>
     <string name="from">From</string>
     <string name="until">Until</string>
+    <string name="specific_nobelprizes_destination">Searched </string>
 </resources>

@@ -3,32 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/destination_SecondFragment">
+    app:startDestination="@id/destination_SearchForNobelFragment">
 
     <fragment
-        android:id="@+id/destination_FirstFragment"
+        android:id="@+id/destination_NobelListFragment"
         android:name="com.example.nobelprizesearch.ui.fragments.NobelListFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_nobelslist">
-
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/destination_SecondFragment" />
-    </fragment>
+        android:label="@string/list_nobelprizes_destination"
+        tools:layout="@layout/fragment_nobelslist" />
     <fragment
-        android:id="@+id/destination_SecondFragment"
+        android:id="@+id/destination_SearchForNobelFragment"
         android:name="com.example.nobelprizesearch.ui.fragments.SearchForNobelFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/search_nobelprizes_destination"
         tools:layout="@layout/fragment_nobelsearch">
-
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/destination_FirstFragment" />
+            android:id="@+id/action_destination_SearchForNobelFragment_to_destination_SpecificNobelPrizesFragment"
+            app:destination="@id/destination_SpecificNobelPrizesFragment" />
     </fragment>
     <fragment
-        android:id="@+id/specificNobelPrizesFragment"
-        android:name="com.example.nobelprizesearch.ui.fragments.SpecificNobelPrizesFragment"
-        android:label="SpecificNobelPrizesFragment" >
+        android:id="@+id/destination_SpecificNobelPrizesFragment"
+        tools:layout="@layout/fragment_specific_nobelprizes"
+        android:name="com.example.nobelprizesearch.ui.fragments.SpecificNobelPrizesFragment">
         <argument
             android:name="arrayOfSpecificNobelPrizes"
             app:argType="com.example.nobelprizesearch.model.domain.NobelPrize[]" />

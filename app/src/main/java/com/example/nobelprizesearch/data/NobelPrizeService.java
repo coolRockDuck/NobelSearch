@@ -1,8 +1,8 @@
 package com.example.nobelprizesearch.data;
 
+import com.example.nobelprizesearch.model.api_response.NobelPrizeApiResponse;
 import com.example.nobelprizesearch.model.api_response.RangeOfNobelPrizeApiResponse;
 import com.example.nobelprizesearch.model.domain.Field;
-import com.example.nobelprizesearch.model.api_response.NobelPrizeApiResponse;
 
 import java.util.List;
 
@@ -18,6 +18,7 @@ public interface NobelPrizeService {
     @GET("nobelPrize/{field}/{year}")
     Single<List<NobelPrizeApiResponse>> fetchNobelPrizeForYear(@Path("year") String year, @Path("field") Field field);
 
+    // TODO: 24/08/2022 fix this method returning prizes from all fields
     @GET("nobelPrizes?sort=desc")
     Single<RangeOfNobelPrizeApiResponse> fetchNobelPrizeForRangeOfYears(@Query("nobelPrizeYear") String yearStart, @Query("yearTo") String yearEnd, @Query("nobelPrizeCategory") Field field);
 

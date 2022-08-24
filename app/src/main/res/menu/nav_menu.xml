@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/destination_FirstFragment"
+        android:id="@+id/destination_NobelListFragment"
         android:enabled="true"
         android:icon="@drawable/ic_list"
         android:title="@string/list_nobelprizes_destination" />
 
     <item
-        android:id="@+id/destination_SecondFragment"
+        android:id="@+id/destination_SearchForNobelFragment"
         android:enabled="true"
         android:icon="@drawable/ic_search"
         android:title="@string/search_nobelprizes_destination" />

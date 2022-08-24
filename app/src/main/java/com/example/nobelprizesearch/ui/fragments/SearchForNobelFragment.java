@@ -91,7 +91,7 @@ public class SearchForNobelFragment extends Fragment {
 
                 Bundle args = new Bundle();
                 args.putSerializable(SpecificNobelPrizesFragment.SPECIFIC_NOBEL_PRIZES_KEY, new NobelPrizesSerializableWrapper(success));
-                NavHostFragment.findNavController(this).navigate(R.id.specificNobelPrizesFragment, args);
+                NavHostFragment.findNavController(this).navigate(R.id.action_destination_SearchForNobelFragment_to_destination_SpecificNobelPrizesFragment, args);
 
                 viewModel.nobelPrizesHasBeenConsumed();
             }, () -> {
